@@ -79,7 +79,7 @@ class MainWindow(QMainWindow, WindowMixin):
         settings = self.settings
 
         # Load string bundle for i18n
-        self.stringBundle = StringBundle.getBundle()
+        self.stringBundle = StringBundle.getBundle('zh-CN')
         getStr = lambda strId: self.stringBundle.getString(strId)
 
         # Save as Pascal voc xml
@@ -343,10 +343,10 @@ class MainWindow(QMainWindow, WindowMixin):
                               onShapesPresent=(saveAs, hideAll, showAll))
 
         self.menus = struct(
-            file=self.menu('&File'),
-            edit=self.menu('&Edit'),
-            view=self.menu('&View'),
-            help=self.menu('&Help'),
+            file=self.menu(getStr('mapFile')),
+            edit=self.menu(getStr('mapEdit')),
+            view=self.menu(getStr('mapView')),
+            help=self.menu(getStr('mapHelp')),
             recentFiles=QMenu('Open &Recent'),
             labelList=labelMenu)
 
