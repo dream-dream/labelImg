@@ -156,6 +156,9 @@ class MainWindow(QMainWindow, WindowMixin):
         filelistLayout = QVBoxLayout()
         filelistLayout.setContentsMargins(0, 0, 0, 0)
         filelistLayout.addWidget(self.fileListWidget)
+        self.labelFileSchedule = QLabel(self.fileListWidget)
+        self.labelFileSchedule.setAutoFillBackground(True)
+        filelistLayout.addWidget(self.labelFileSchedule)
         fileListContainer = QWidget()
         fileListContainer.setLayout(filelistLayout)
         self.filedock = QDockWidget(getStr('fileList'), self)
@@ -675,6 +678,7 @@ class MainWindow(QMainWindow, WindowMixin):
     def fileitemDoubleClicked(self, item=None):
         currIndex = self.mImgList.index(ustr(item.text()))
         if currIndex < len(self.mImgList):
+            self.show_schedule(currIndex)
             filename = self.mImgList[currIndex]
             if filename:
                 self.loadFile(filename)
@@ -1238,6 +1242,7 @@ class MainWindow(QMainWindow, WindowMixin):
 
         currIndex = self.mImgList.index(self.filePath)
         if currIndex - 1 >= 0:
+            self.show_schedule(currIndex -1)
             filename = self.mImgList[currIndex - 1]
             if filename:
                 self.loadFile(filename)
@@ -1264,6 +1269,7 @@ class MainWindow(QMainWindow, WindowMixin):
         else:
             currIndex = self.mImgList.index(self.filePath)
             if currIndex + 1 < len(self.mImgList):
+                self.show_schedule(currIndex + 1)
                 filename = self.mImgList[currIndex + 1]
 
         if filename:
@@ -1438,6 +1444,12 @@ class MainWindow(QMainWindow, WindowMixin):
 
     def toogleDrawSquare(self):
         self.canvas.setDrawingShapeToSquare(self.drawSquaresOption.isChecked())
+
+    # show schedule
+    def show_schedule(self, index=0):
+        self.labelFileSchedule.setText(
+            '%s/%s' % (index + 1, self.fileListWidget.count())
+        )
 
 def inverted(color):
     return QColor(*[255 - v for v in color.getRgb()])
